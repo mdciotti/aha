@@ -23,18 +23,5 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mdciotti/aha/issues"
-  },
-  "devDependencies": {
-    "babel-core": "~5.8.23",
-    "babel-loader": "~5.3.2",
-    "css-loader": "^0.17.0",
-    "defaults": "^1.0.2",
-    "extract-text-webpack-plugin": "^0.8.2",
-    "file-loader": "^0.8.4",
-    "less": "^2.5.1",
-    "less-loader": "^2.2.0",
-    "style-loader": "^0.12.3",
-    "vkey": "^1.0.0",
-    "webpack": "~1.12.1"
   }
 }

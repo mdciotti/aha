@@ -2,9 +2,7 @@
 // v0.1.0
 // 26 Sep 2015
 
-import vkey from 'vkey';
-
-window.addEventListener('load', () => {
+window.addEventListener('load', function () {
 	window.Physics = Physics;
 	Physics(function(world){
 		window.world = world;
@@ -28,7 +26,9 @@ window.addEventListener('load', () => {
 		});
 
 		world.add(renderer);
-		world.on('step', () => world.render());
+		world.on('step', function () {
+			world.render();
+		});
 
 		// bounds of the window
 		var viewportBounds = Physics.aabb(0, 0, viewWidth, viewHeight);
@@ -40,7 +40,7 @@ window.addEventListener('load', () => {
 			cof: 0.99
 		}));
 
-		window.addEventListener('click', e => {
+		window.addEventListener('click', function (e) {
 			// add a circle
 			world.add(
 				Physics.body('circle', {
