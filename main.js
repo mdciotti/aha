@@ -68,4 +68,27 @@ window.addEventListener('load', function () {
 		Physics.util.ticker.start();
 
 	});
+
+	var messages = PUBNUB.$('messages'),
+		input = PUBNUB.$('chat-box'),
+		channel = 'hello';
+
+	PUBNUB.subscribe({
+		channel: channel,
+		callback: function (text) {
+			var msgBox = document.createElement('div');
+			msgBox.textContent = (''+text).replace(/[<>]/g, '');
+			messages.appendChild(msgBox);
+		}
+	});
+
+	PUBNUB.bind('keyup', input, function (e) {
+		if ((e.keyCode || e.charCode) === 13) {
+			PUBNUB.publish({
+				channel: channel,
+				message: input.value,
+				x: input.value = ''
+			});
+		}
+	});
 });

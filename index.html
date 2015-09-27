@@ -4,7 +4,6 @@
 	<meta charset="UTF-8">
 	<title>aha!</title>
 	<script src=http://cdn.pubnub.com/pubnub.min.js></script>
-	<script src="./node_modules/babel-core/browser.js"></script>
 	<script src="./bower_components/PhysicsJS/dist/physicsjs-full.js"></script>
 	<script src="./main.js"></script>
 	<style type="text/css">
@@ -19,7 +18,7 @@
 			width: 100%;
 			height: 100%;
 		}
-		#pubnub-test {
+		#chat {
 			position: absolute;
 			z-index: 100;
 			top: 0;
@@ -30,29 +29,9 @@
 </head>
 <body>
 	<div id="viewport"></div>
-
-
-	<div id="pubnub-test">
-		Enter Chat and press enter
-		<div><input id=input placeholder=you-chat-here /></div>
-
-		Chat Output
-		<div id=box></div>
+	<div id="chat">
+		<div><input id="chat-box" placeholder="Type a message..." /></div>
+		<div id="messages"></div>
 	</div>
-
-	<script>(function(){
-	var box = PUBNUB.$('box'), input = PUBNUB.$('input'), channel = 'hello';
-	PUBNUB.subscribe({
-	    channel  : channel,
-	    callback : function(text) { box.innerHTML = (''+text).replace( /[<>]/g, '' ) + '<br>' + box.innerHTML }
-	});
-	PUBNUB.bind( 'keyup', input, function(e) {
-	    (e.keyCode || e.charCode) === 13 && PUBNUB.publish({
-	        channel : channel, message : input.value, x : (input.value='')
-	    })
-	} )
-	})()</script>
-
-
 </body>
 </html>
