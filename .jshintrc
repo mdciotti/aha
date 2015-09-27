@@ -1,0 +1,18 @@
+{
+	"curly": true,
+	"eqeqeq": true,
+	"forin": true,
+	"freeze": true,
+	"funcscope": true,
+	"globals": [],
+	"indent": 1,
+	"latedef": true,
+	"nonbsp": true,
+	"singleGroups": true,
+	// "strict": true,
+	"unused": true,
+	// "varstmt": true,
+	"esnext": true,
+	"browser": true,
+	"devel": true
+}

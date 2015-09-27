@@ -1,0 +1,26 @@
+{
+  "name": "aha",
+  "version": "0.1.0",
+  "homepage": "https://github.com/mdciotti/aha",
+  "authors": [
+    "Maxwell Ciotti <max@mdc.io>"
+  ],
+  "description": "aha! is a cooperative puzzle game about limited communication",
+  "main": "main.js",
+  "keywords": [
+    "game",
+    "puzzle",
+    "cooperative"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "PhysicsJS": "physicsjs#~0.7.0"
+  }
+}
