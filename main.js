@@ -3,8 +3,16 @@
 // 26 Sep 2015
 
 window.addEventListener('load', function () {
-	window.Physics = Physics;
-	Physics(function(world){
+
+	var messages = PUBNUB.$('messages'),
+		lastMsg = PUBNUB.$('chat-welcome'),
+		input = PUBNUB.$('chat-box'),
+		channels = {
+			chat: 'aha-chat',
+			physics: 'aha-physics'
+		};
+
+	Physics(function (world) {
 		window.world = world;
 
 		var viewWidth = window.innerWidth;
@@ -40,17 +48,31 @@ window.addEventListener('load', function () {
 			cof: 0.99
 		}));
 
+		function createCircle(x, y) {
+			world.add(Physics.body('circle', {
+				x: x, y: y,
+				vx: 0, vy: 0,
+				radius: 20
+			}));
+		}
+
 		window.addEventListener('click', function (e) {
-			// add a circle
-			world.add(
-				Physics.body('circle', {
-					x: e.clientX, // x-coordinate
-					y: e.clientY, // y-coordinate
-					vx: 0, // velocity in x-direction
-					vy: 0, // velocity in y-direction
-					radius: 20
-				})
-			);
+			// createCircle(e.clientX, e.clientY);
+
+			PUBNUB.publish({
+				channel: channels.physics,
+				message: { x: e.clientX, y: e.clientY },
+				callback: function (m) {
+					// console.log(m);
+				}
+			});
+		});
+
+		PUBNUB.subscribe({
+			channel: channels.physics,
+			callback: function (pos) {
+				createCircle(pos.x, pos.y);
+			}
 		});
 
 		// ensure objects bounce when edge collision is detected
@@ -60,7 +82,7 @@ window.addEventListener('load', function () {
 		world.add(Physics.behavior('constant-acceleration'));
 
 		// subscribe to ticker to advance the simulation
-		Physics.util.ticker.on(function(time, dt){
+		Physics.util.ticker.on(function (time, dt) {
 			world.step(time);
 		});
 
@@ -69,23 +91,21 @@ window.addEventListener('load', function () {
 
 	});
 
-	var messages = PUBNUB.$('messages'),
-		input = PUBNUB.$('chat-box'),
-		channel = 'hello';
-
 	PUBNUB.subscribe({
-		channel: channel,
+		channel: channels.chat,
 		callback: function (text) {
-			var msgBox = document.createElement('div');
+			msgBox = document.createElement('div');
+			msgBox.classList.add('chat-msg');
 			msgBox.textContent = (''+text).replace(/[<>]/g, '');
-			messages.appendChild(msgBox);
+			messages.insertBefore(msgBox, lastMsg);
+			lastMsg = msgBox;
 		}
 	});
 
 	PUBNUB.bind('keyup', input, function (e) {
 		if ((e.keyCode || e.charCode) === 13) {
 			PUBNUB.publish({
-				channel: channel,
+				channel: channels.chat,
 				message: input.value,
 				x: input.value = ''
 			});
